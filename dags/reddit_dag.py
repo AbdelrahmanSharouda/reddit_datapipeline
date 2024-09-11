@@ -5,8 +5,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from reddit_datapipeline.pipelines import reddit_pipeline
-
+from pipelines import reddit_pipeline
 
 default_args = {
     'owner':'Abdelrahman',
@@ -27,7 +26,7 @@ dag = DAG(
 extract = PythonOperator(
     task_id='reddit_extraction',
     dag=dag,
-    python_callable=reddit_pipeline,
+    python_callable=reddit_pipeline.reddit_pipeline ,
     op_kwargs={
         'filename':f'reddit_{file_postfix}',
         'subbreddit':'dateengineering',
