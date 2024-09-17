@@ -19,3 +19,6 @@ def extract_posts(reddit_instance: praw.Reddit, subreddit: str, time_filter: str
     posts_lists = []
     
     print(posts)
+
+if __name__ == '__main__':
+    print('in reddit_etl')

@@ -35,3 +35,6 @@ POST_FIELDS = (
     'spoiler',
     'stickied'
 )
+
+if __name__ == '__main__':
+    print('in constants')
