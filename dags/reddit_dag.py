@@ -31,6 +31,6 @@ extract = PythonOperator(
         'file_name': f'reddit_{file_postfix}',
         'subreddit': 'dataengineering', 
         'time_filter': 'day',  
-        'limit': 1
+        'limit': 10
     })
 #TODO: upload to S3
