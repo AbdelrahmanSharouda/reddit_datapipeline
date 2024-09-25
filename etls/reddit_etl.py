@@ -3,6 +3,8 @@ from praw import Reddit as reddit
 import sys
 from utils.constants import POST_FIELDS,PASSWORD,USERNAME
 import logging
+import pandas as pd
+import numpy as np
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
@@ -39,6 +41,19 @@ def extract_posts(reddit_instance: praw.Reddit, subreddit: str, time_filter: str
     except Exception as e:
         print(f'error in extracting posts {e}')
         sys.exit(1)
+def transform_data(post_df: pd.DataFrame):
+    post_df['created_utc'] = pd.to_datetime(post_df['created_utc'], unit='s')
+    post_df['over_18'] = np.where((post_df['over_18'] == True), True, False)
+    post_df['author'] = post_df['author'].astype(str)
+    edited_mode = post_df['edited'].mode()
+    post_df['edited'] = np.where(post_df['edited'].isin([True, False]),
+                                 post_df['edited'], edited_mode).astype(bool)
+    post_df['num_comments'] = post_df['num_comments'].astype(int)
+    post_df['score'] = post_df['score'].astype(int)
+    post_df['title'] = post_df['title'].astype(str)
+
+    return post_df
+
 
 if __name__ == '__main__':
     print('in reddit_etl')

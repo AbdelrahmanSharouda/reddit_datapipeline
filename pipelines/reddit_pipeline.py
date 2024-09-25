@@ -1,5 +1,6 @@
 from utils.constants import CLIENT_ID, SECRET
-from etls.reddit_etl import connect_reddit, extract_posts
+from etls.reddit_etl import connect_reddit, extract_posts, transform_data
+import pandas as pd
 
 def reddit_pipeline(file_name:str, subreddit:str, time_filter='day', limit=None):
     # TODO:
@@ -7,7 +8,10 @@ def reddit_pipeline(file_name:str, subreddit:str, time_filter='day', limit=None)
     instance = connect_reddit(CLIENT_ID, SECRET, 'Airscholar Agent')
     # extraction
     posts = extract_posts(instance, subreddit, time_filter, limit)
+    post_df = pd.DataFrame(posts)
     # transformation
+    post_df = transform_data(post_df)
+
     # loading to CSV
 
 if __name__ == '__main__':
