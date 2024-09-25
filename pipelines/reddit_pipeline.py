@@ -1,5 +1,5 @@
-from utils.constants import CLIENT_ID, SECRET
-from etls.reddit_etl import connect_reddit, extract_posts, transform_data
+from utils.constants import CLIENT_ID, SECRET, OUTPUT_PATH
+from etls.reddit_etl import connect_reddit, extract_posts, transform_data, load_data_to_csv
 import pandas as pd
 
 def reddit_pipeline(file_name:str, subreddit:str, time_filter='day', limit=None):
@@ -13,6 +13,9 @@ def reddit_pipeline(file_name:str, subreddit:str, time_filter='day', limit=None)
     post_df = transform_data(post_df)
 
     # loading to CSV
+    load_data_to_csv(post_df, f'{OUTPUT_PATH}/{file_name}.csv')
+
+    return  f'{OUTPUT_PATH}/{file_name}.csv'
 
 if __name__ == '__main__':
     print(CLIENT_ID)

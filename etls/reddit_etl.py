@@ -41,6 +41,7 @@ def extract_posts(reddit_instance: praw.Reddit, subreddit: str, time_filter: str
     except Exception as e:
         print(f'error in extracting posts {e}')
         sys.exit(1)
+
 def transform_data(post_df: pd.DataFrame):
     post_df['created_utc'] = pd.to_datetime(post_df['created_utc'], unit='s')
     post_df['over_18'] = np.where((post_df['over_18'] == True), True, False)
@@ -54,6 +55,8 @@ def transform_data(post_df: pd.DataFrame):
 
     return post_df
 
+def load_data_to_csv(data: pd.DataFrame, path: str):
+    data.to_csv(path, index=False)
 
 if __name__ == '__main__':
     print('in reddit_etl')
