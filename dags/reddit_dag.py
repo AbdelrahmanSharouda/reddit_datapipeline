@@ -3,10 +3,11 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime
 import os
 import sys
-from utils.constants import OUTPUT_PATH
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pipelines import reddit_pipeline, aws_pipeline 
+from utils.constants import OUTPUT_PATH
+
 
 default_args = {
     'owner':'Abdelrahman',
@@ -40,9 +41,6 @@ upload_s3 = PythonOperator(
     task_id='upload_to_s3',
     dag=dag,
     python_callable=aws_pipeline.upload_s3_pipeline,
-    op_kwargs={
-        'file_path': f'{OUTPUT_PATH}/{file_name}.csv',
-        's3_bucket': 'reddit-s3-bucket',
-        's3_key': f'reddit_posts/{file_name}.csv'
-    })
+    )
 
+extract >> upload_s3

@@ -22,7 +22,8 @@ def create_bucket_if_not_exists(s3: s3fs.S3FileSystem, bucket_name: str):
 
 def upload_file_to_s3(s3: s3fs.S3FileSystem, file_path: str, bucket: str, s3_file_name: str):
     try:
-        s3.put(file_path, bucket, s3_file_name)
+        s3.put(file_path, bucket+'/raw/'+s3_file_name)
+        print(f'uploaded file to s3 {s3_file_name}')
     except Exception as e:
         print(f'error in uploading file to s3 {e}')
 
