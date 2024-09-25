@@ -26,13 +26,11 @@ dag = DAG(
 extract = PythonOperator(
     task_id='reddit_extraction',
     dag=dag,
-    python_callable=reddit_pipeline.reddit_pipeline ,
+    python_callable=reddit_pipeline.reddit_pipeline,
     op_kwargs={
-        'filename':f'reddit_{file_postfix}',
-        'subbreddit':'dateengineering',
-        'time_Filter':'day',
-        'limit':100
-    }
-    
-    )
+        'file_name': f'reddit_{file_postfix}',
+        'subreddit': 'dataengineering', 
+        'time_filter': 'day',  
+        'limit': 1
+    })
 #TODO: upload to S3
