@@ -5,7 +5,10 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from pipelines import reddit_pipeline
+from pipelines import reddit_pipeline, aws_pipeline 
+from utils.constants import OUTPUT_PATH
+
+
 
 default_args = {
     'owner':'Abdelrahman',
@@ -26,13 +29,19 @@ dag = DAG(
 extract = PythonOperator(
     task_id='reddit_extraction',
     dag=dag,
-    python_callable=reddit_pipeline.reddit_pipeline ,
+    python_callable=reddit_pipeline.reddit_pipeline,
     op_kwargs={
-        'filename':f'reddit_{file_postfix}',
-        'subbreddit':'dateengineering',
-        'time_Filter':'day',
-        'limit':100
-    }
-    
-    )
+        'file_name': f'reddit_{file_postfix}',
+        'subreddit': 'dataengineering', 
+        'time_filter': 'day',  
+        'limit': 10
+    })
 #TODO: upload to S3
+
+upload_s3 = PythonOperator(
+    task_id='upload_to_s3',
+    dag=dag,
+    python_callable=aws_pipeline.upload_s3_pipeline,
+    )
+
+extract >> upload_s3
