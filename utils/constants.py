@@ -9,6 +9,7 @@ CLIENT_ID = parser.get('api_keys', 'reddit_client_id')
 PASSWORD = parser.get('api_keys', 'reddit_password')
 USERNAME = parser.get('api_keys', 'reddit_username')
 
+
 DATABASE_HOST =  parser.get('database', 'database_host')
 DATABASE_NAME =  parser.get('database', 'database_name')
 DATABASE_PORT =  parser.get('database', 'database_port')

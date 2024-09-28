@@ -10,6 +10,7 @@ import numpy as np
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+
 def connect_reddit(client_id, client_secret, user_agent) -> praw.Reddit:
     try:
         reddit = praw.Reddit(client_id=client_id,
@@ -18,6 +19,8 @@ def connect_reddit(client_id, client_secret, user_agent) -> praw.Reddit:
                             password=PASSWORD,
                             username=USERNAME)
         logger.info(f'connected to reddit!')
+                            user_agent=user_agent)
+        print('connected to reddit!')
         return reddit
     except Exception as e:
         print(f'error in connecting {e}')
