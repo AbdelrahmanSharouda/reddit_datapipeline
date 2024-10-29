@@ -19,7 +19,7 @@ def connect_reddit(client_id, client_secret, user_agent) -> praw.Reddit:
                             password=PASSWORD,
                             username=USERNAME)
         logger.info(f'connected to reddit!')
-                            user_agent=user_agent)
+
         print('connected to reddit!')
         return reddit
     except Exception as e:
