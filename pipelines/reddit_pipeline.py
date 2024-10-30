@@ -1,6 +1,7 @@
 from utils.constants import CLIENT_ID, SECRET, OUTPUT_PATH
 from etls.reddit_etl import connect_reddit, extract_posts, transform_data, load_data_to_csv
 import pandas as pd
+import os
 
 
 def reddit_pipeline(file_name:str, subreddit:str, time_filter='day', limit=None):
@@ -17,6 +18,13 @@ def reddit_pipeline(file_name:str, subreddit:str, time_filter='day', limit=None)
     load_data_to_csv(post_df, f'{OUTPUT_PATH}/{file_name}.csv')
 
     return  f'{OUTPUT_PATH}/{file_name}.csv'
+
+# Removed the file after the pipeline is done
+def remove_csv_file():
+    try:
+        os.remove(r'reddit_datapipeline\data\output\*.csv')
+    except Exception as e:
+        print(f'Error removing file: {e}')
 
 if __name__ == '__main__':
     print(CLIENT_ID)
