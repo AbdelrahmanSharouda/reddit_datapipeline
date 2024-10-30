@@ -1,5 +1,6 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.sensors.filesystem import FileSensor
 from datetime import datetime
 import os
 import sys
@@ -36,7 +37,23 @@ extract = PythonOperator(
         'time_filter': 'day',  
         'limit': 10
     })
-#TODO: upload to S3
+
+# Alternative approach using FileSensor
+watch_for_deletion = FileSensor(
+    task_id='watch_for_deletion',
+    filepath=f"{OUTPUT_PATH}/reddit_{file_postfix}.csv",
+    poke_interval=30,
+    timeout=60 * 5,
+    soft_fail=True,
+    dag=dag
+)
+
+delete_csv = PythonOperator(
+    task_id='delete_csv',
+    dag=dag,
+    python_callable=reddit_pipeline.remove_csv_file,
+    trigger_rule='none_failed'
+)
 
 upload_s3 = PythonOperator(
     task_id='upload_to_s3',
@@ -44,4 +61,4 @@ upload_s3 = PythonOperator(
     python_callable=aws_pipeline.upload_s3_pipeline,
     )
 
-extract >> upload_s3
+extract >> upload_s3 >> watch_for_deletion >> delete_csv
