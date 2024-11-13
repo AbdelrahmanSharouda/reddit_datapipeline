@@ -31,7 +31,7 @@ Loading: Stores data in a database or data warehouse.
 Orchestration: Manages pipeline execution and dependencies.
 
 ## Architecture
-![RedditDataEngineering.png](assets%2FRedditDataEngineering.png)
+![RedditDataEngineering.png](assets\reddit_data_engineering.jpg)
 1. **Reddit API**: Source of the data.
 2. **Apache Airflow & Celery**: Orchestrates the ETL process and manages task distribution.
 3. **PostgreSQL**: Temporary storage and metadata management.
@@ -78,4 +78,7 @@ Orchestration: Manages pipeline execution and dependencies.
 
 
 ## Video
- This is a guided project from a youtube channel called CodeWithYu [![Reddit Data Engineering](https://img.youtube.com/vi/LSlt6iVI_9Y/0.jpg)](https://www.youtube.com/watch?v=LSlt6iVI_9Y)
+ This is a guided project from a youtube channel called CodeWithYu 
+
+ 
+ [![Reddit Data Engineering](https://img.youtube.com/vi/LSlt6iVI_9Y/0.jpg)](https://www.youtube.com/watch?v=LSlt6iVI_9Y)
